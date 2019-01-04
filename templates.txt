@@ -14,10 +14,23 @@
 
 %define MACH_SYSCALL(nb)		(0x2000000 | nb)
 %define STDOUT					1
+%define READ					3
 %define WRITE					4
 %define EOF						-1
+%define BUFFER_SIZE				4096
 
-extern _malloc
+extern malloc
+
+global _ft_bzero
+global _ft_isprint
+global _ft_toupper
+global _ft_tolower
+global _ft_puts
+global _ft_strlen
+global _ft_memset
+global _ft_memcpy
+global _ft_strdup
+global _ft_cat
 
 section .data
 ascii:
@@ -45,7 +58,6 @@ ascii:
 		0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, \
 		0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, \
 		0b00011101, 0b00011101, 0b00011101, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00000000
-endline: db 10
 
 ;       '\0',       DET,        DTX,        FTX,        FTR,        DEM,        ACC,        '\a',
 ;       '\b',       '\t',       '\n',       '\v',       '\f',       '\r',       HC,         ES,
@@ -66,6 +78,8 @@ endline: db 10
 ;       'x',        'y',        'z',        '{',        '|',        '}',        '~',        SUP
 
 	.padding times 128 db 0
+endline: db 10
+buffer: times BUFFER_SIZE db 0
 
 _ft_bzero:
 	mov RDX, RSI	; set third argument (len) as the second given argument
@@ -107,7 +121,7 @@ _ft_puts:
 	syscall											; call write
 	cmp EAX, -1										; error handling
 	je .error
-	mov RDX, 1										; set syscall third arg to 1
+	mov RDX, STDOUT									; set syscall third arg to 1
 	mov RSI, [rel endline]							; set syscall second arg to "\n"
 	syscall											; call write again
 	cmp EAX, -1										; error handling
@@ -161,11 +175,31 @@ _ft_strdup:
 	mov RDI, RAX
 	inc RDI											; set first arg to strlen + 1
 	mov RDX, RDI									; set third arg to strlen + 1
-	call _malloc									; allocate strlen + 1 bytes
+	call malloc									; allocate strlen + 1 bytes
 	cmp RAX, 0										; check for NULL return
 	je .error										; if so, stop
 	mov RDI, RAX									; set dst to allocated memory
 	pop RSI											; set src to str
 	call _ft_memcpy									; copy src to dst, set return value to dst
 .error:
+	ret
+
+_ft_cat:
+	mov R11, RDI							; save fd to R11
+	lea RSI, [rel buffer]					; load buffer in arg 2
+.loop:
+	mov RDX, BUFFER_SIZE					; load buffer size in arg 3
+	mov RAX, MACH_SYSCALL(READ)				; set syscall to read
+	syscall									; read
+	cmp RAX, 0								; check return value
+	jle .end								; jump to end if over or error
+	mov RDI, STDOUT							; set arg 1 to STDOUT
+	mov RSI, RAX							; set arg 3 to previously read len
+	mov RAX, MACH_SYSCALL(WRITE)			; set syscall to write
+	syscall									; write
+	cmp RAX, 0								; check something was written
+	jle .end								; jump to end if not
+	mov RDI, R11							; put fd back in arg 1
+	jmp .loop
+.end:
 	ret
