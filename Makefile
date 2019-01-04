@@ -28,8 +28,23 @@ FLG =
 
 all: $(NAME)
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	TARGET = elf64
+	DEFINE = -DPREFIX=_ft_
+else
+	ifeq ($(UNAME_S),Darwin)
+		TARGET = macho64
+		DEFINE = -DPREFIX=_ft_
+	else
+		$(error Incompatible Platform)
+	endif
+endif
+
+
 $(NAME):$(OBJ)
-	dqwwd
+	nasm -f $(TARGET) templates.txt -o test.o
+	gcc -no-pie -Wno-implicit-function-declaration $(DEFINE) main.c test.o
 
 obj/%.o: src/%.c
 	nasm
