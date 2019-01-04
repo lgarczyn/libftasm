@@ -12,10 +12,10 @@
 ;variables
 ;	128bytes of stack are garanteed for leaf functions
 
-%define MACH_SYSCALL(nb)		(0x2000000 | nb)
+%define MACH_SYSCALL(nb)		(nb)
 %define STDOUT					1
-%define READ					3
-%define WRITE					4
+%define READ					0
+%define WRITE					1
 %define EOF						-1
 %define BUFFER_SIZE				4096
 
@@ -40,24 +40,25 @@ ascii:
 	.flag_print db 0b00001000
 	.flag_lower db 0b00010000
 	.flag_upper db 0b00100000
+	.flag_ascii db 0b01000000
 	.flags db \
-		0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, \
-		0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, \
-		0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, \
-		0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, \
-		0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, \
-		0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, \
-		0b00001110, 0b00001110, 0b00001110, 0b00001110, 0b00001110, 0b00001110, 0b00001110, 0b00001110, \
-		0b00001110, 0b00001110, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, \
+		0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, \
+		0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, \
+		0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, \
+		0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, 0b01000000, \
+		0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, \
+		0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, \
+		0b01001110, 0b01001110, 0b01001110, 0b01001110, 0b01001110, 0b01001110, 0b01001110, 0b01001110, \
+		0b01001110, 0b01001110, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, \
 		                                                                                                \
-		0b00001000, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, \
-		0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, \
-		0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, 0b00101101, \
-		0b00101101, 0b00101101, 0b00101101, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00001000, \
-		0b00001000, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, \
-		0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, \
-		0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, 0b00011101, \
-		0b00011101, 0b00011101, 0b00011101, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00000000
+		0b01001000, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, \
+		0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, \
+		0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, 0b01101101, \
+		0b01101101, 0b01101101, 0b01101101, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01001000, \
+		0b01001000, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, \
+		0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, \
+		0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, 0b01011101, \
+		0b01011101, 0b01011101, 0b01011101, 0b01001000, 0b01001000, 0b01001000, 0b01001000, 0b01000000
 
 ;       '\0',       DET,        DTX,        FTX,        FTR,        DEM,        ACC,        '\a',
 ;       '\b',       '\t',       '\n',       '\v',       '\f',       '\r',       HC,         ES,
@@ -86,10 +87,46 @@ _ft_bzero:
 	mov RSI, 0		; set second argument to 0
 	call _ft_memset	; call memset with ptr and 0
 
-_ft_isprint:	; _ft_isascii _ft_isalnum _ft_isdigit _ft_isalpha _ft_isupper _ft_islower
+_ft_isprint:
 	lea RAX, [rel ascii.flags]
 	mov AL, byte[rax + rdi]
 	and AL, [rel ascii.flag_print]
+	ret
+
+_ft_isascii:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_ascii]
+	ret
+
+_ft_isalnum:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_alnum]
+	ret
+
+_ft_isdigit:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_digit]
+	ret
+
+_ft_isalpha:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_alpha]
+	ret
+
+_ft_isupper:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_upper]
+	ret
+
+_ft_islower:
+	lea RAX, [rel ascii.flags]
+	mov AL, byte[rax + rdi]
+	and AL, [rel ascii.flag_lower]
 	ret
 
 _ft_toupper:
@@ -144,19 +181,30 @@ _ft_strlen:
 	ret
 
 _ft_memset:
-	mov RDI, RAX									; save ptr to return value
-	add RSI, RDI									; set RSI to ptr + len
+	push rbp
+	mov rbp, rsp
+
+	push 1
+	mov RAX, RDI									; save ptr to return value
+	add RDX, RDI									; set RDX to ptr + len
+	push 2
 .loop:
-	cmp RDI, RSI 									; if ptr has reached RSI, stop
+	cmp RDI, RDX 									; if ptr has reached RSI, stop
 	je .end
-	mov [RDI], RDX									; *ptr = c
+	mov [RDI], SIL									; *ptr = c
 	inc RDI											; ptr++
 	jmp .loop
 .end:
+	pop RDI
+	pop RDI
+
+	mov rsp, rbp
+	pop rbp
+
 	ret	
 
 _ft_memcpy:
-	mov RDI, RAX									; save dest to return value
+	mov RAX, RDI									; save dest to return value
 	add RDX, RDI									; set RDX to dest + len
 .loop:
 	cmp RDI, RDX									; check if RDI has reached RDX
@@ -174,12 +222,13 @@ _ft_strdup:
 	call _ft_strlen									; call _ft_strlen with str
 	mov RDI, RAX
 	inc RDI											; set first arg to strlen + 1
-	mov RDX, RDI									; set third arg to strlen + 1
-	call malloc									; allocate strlen + 1 bytes
-	cmp RAX, 0										; check for NULL return
-	je .error										; if so, stop
-	mov RDI, RAX									; set dst to allocated memory
-	pop RSI											; set src to str
+	push RDI										; save strlen + 1
+	call malloc										; allocate strlen + 1 bytes
+	;cmp RAX, 0										; check for NULL return
+	;je .error										; if so, stop
+	mov RDI, RAX									; set arg 1: dst to allocated memory
+	pop RDX											; set arg 3: len to strlen + 1
+	pop RSI											; set arg 2: src to str
 	call _ft_memcpy									; copy src to dst, set return value to dst
 .error:
 	ret

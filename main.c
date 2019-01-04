@@ -12,28 +12,49 @@
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define			CONCAT_INNER(A, B) A##B
 #define			CONCAT(A, B) CONCAT_INNER(A, B)
-#define			CALL(F) {printf(#F"\n"); CONCAT(PREFIX, F);}
+
+#define			TRY(F) {printf(": %s\n", F ? "success" : "failure");}
+
+#define			CALL(F) {printf(#F); TRY(CONCAT(PREFIX, F));}
+#define			TEST(F) {printf(#F); TRY(F);}
 
 int				main(int argc, char **argv)
 {
-	char		test[100];
+	char		test[101];
+	char		test_ref[101];
 
+	test[100] = '\0';
+	test_ref[100] = '\0';
+
+	bzero(test_ref, 100);
 	CALL(bzero(test, 100));
-	CALL(isprint('c'));
-	CALL(isprint('\0'));
-	CALL(toupper('c'));
-	CALL(toupper('C'));
-	CALL(toupper('\0'));
-	CALL(tolower('c'));
-	CALL(tolower('C'));
-	CALL(tolower('\0'));
+	TEST(memcmp(test, test_ref, 100) == 0);
+
+	CALL(isprint('c') != 0);
+	CALL(isprint('\0') == 0);
+	CALL(toupper('c') == 'C');
+	CALL(toupper('C') == 'C');
+	CALL(toupper('\0') == '\0');
+	CALL(tolower('c') == 'c');
+	CALL(tolower('C') == 'c');
+	CALL(tolower('\0') == '\0');
+	
 	CALL(puts("test"));
-	CALL(strlen("test"));
-	CALL(memset(test, 'c', 100));
+	CALL(strlen("test") == 4);
+	
+	CALL(memset(test, 'c', 49));
+	memset(test_ref, 'c', 49);
+	TEST(memcmp(test, test_ref, 100) == 0);
+
 	CALL(memcpy(test, test + 50, 50));
+	memcpy(test_ref, test_ref + 50, 50);
+	TEST(memcmp(test, test_ref, 100) == 0);	
+	
 	CALL(strdup(test));
 	CALL(cat(open("main.c", O_RDONLY)));
 }

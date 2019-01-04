@@ -43,8 +43,8 @@ endif
 
 
 $(NAME):$(OBJ)
-	nasm -f $(TARGET) templates.txt -o test.o
-	gcc -no-pie -Wno-implicit-function-declaration $(DEFINE) main.c test.o
+	nasm -f $(TARGET) templates.txt -l a.lst -o a.o
+	gcc -g -no-pie -Wno-implicit-function-declaration $(DEFINE) main.c a.o
 
 obj/%.o: src/%.c
 	nasm
