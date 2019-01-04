@@ -12,12 +12,19 @@
 ;variables
 ;	128bytes of stack are garanteed for leaf functions
 
-%define MACH_SYSCALL(nb)		(nb)
 %define STDOUT					1
-%define READ					0
-%define WRITE					1
 %define EOF						-1
 %define BUFFER_SIZE				4096
+
+%ifdef LINUX
+%define SYSCALL(nb)				(nb)
+%define READ					0
+%define WRITE					1
+%else
+%define SYSCALL(nb)				(0x2000000 | nb)
+%define READ					3
+%define WRITE					4
+%endif
 
 extern malloc
 
@@ -154,7 +161,7 @@ _ft_puts:
 	mov RDX, RAX									; set syscall third arg as strlen return 
 	mov RSI, RDI									; set syscall second arg as first received
 	mov RDI, 1										; set syscall first arg as 1
-	mov RAX, MACH_SYSCALL(WRITE)					; set syscall to write
+	mov RAX, SYSCALL(WRITE)					; set syscall to write
 	syscall											; call write
 	cmp EAX, -1										; error handling
 	je .error
@@ -224,13 +231,15 @@ _ft_strdup:
 	inc RDI											; set first arg to strlen + 1
 	push RDI										; save strlen + 1
 	call malloc										; allocate strlen + 1 bytes
-	;cmp RAX, 0										; check for NULL return
-	;je .error										; if so, stop
+	cmp RAX, 0										; check for NULL return
+	je .error										; if so, stop
 	mov RDI, RAX									; set arg 1: dst to allocated memory
 	pop RDX											; set arg 3: len to strlen + 1
 	pop RSI											; set arg 2: src to str
 	call _ft_memcpy									; copy src to dst, set return value to dst
+	ret
 .error:
+	mov RAX, 0
 	ret
 
 _ft_cat:
@@ -238,13 +247,13 @@ _ft_cat:
 	lea RSI, [rel buffer]					; load buffer in arg 2
 .loop:
 	mov RDX, BUFFER_SIZE					; load buffer size in arg 3
-	mov RAX, MACH_SYSCALL(READ)				; set syscall to read
+	mov RAX, SYSCALL(READ)					; set syscall to read
 	syscall									; read
 	cmp RAX, 0								; check return value
 	jle .end								; jump to end if over or error
 	mov RDI, STDOUT							; set arg 1 to STDOUT
 	mov RDX, RAX							; set arg 3 to previously read len
-	mov RAX, MACH_SYSCALL(WRITE)			; set syscall to write
+	mov RAX, SYSCALL(WRITE)					; set syscall to write
 	syscall									; write
 	cmp RAX, 0								; check something was written
 	jle .end								; jump to end if not

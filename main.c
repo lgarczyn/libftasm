@@ -20,6 +20,12 @@
 
 #define			TRY(F) {printf(": %s\n", F ? "success" : "failure");}
 
+#ifdef LINUX
+	#define PREFIX _ft_
+#else
+	#define PREFIX _ft
+#endif
+
 #define			CALL(F) {printf(#F); TRY(CONCAT(PREFIX, F));}
 #define			TEST(F) {printf(#F); TRY(F);}
 
