@@ -1,6 +1,7 @@
 *.o
 *.a
 *.out
+*.lst
 ._*
 .DS_Store
 *.dSYM/

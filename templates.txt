@@ -243,7 +243,7 @@ _ft_cat:
 	cmp RAX, 0								; check return value
 	jle .end								; jump to end if over or error
 	mov RDI, STDOUT							; set arg 1 to STDOUT
-	mov RSI, RAX							; set arg 3 to previously read len
+	mov RDX, RAX							; set arg 3 to previously read len
 	mov RAX, MACH_SYSCALL(WRITE)			; set syscall to write
 	syscall									; write
 	cmp RAX, 0								; check something was written
