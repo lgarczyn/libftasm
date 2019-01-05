@@ -10,12 +10,29 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftasm.a
+NAME = libfts.a
 
 TEST_NAME = a.out
 
-SRC = asm.s
-		
+SRC =	ft_isalnum.s\
+		ft_isalpha.s\
+		ft_isascii.s\
+		ft_isdigit.s\
+		ft_islower.s\
+		ft_isprint.s\
+		ft_isupper.s\
+		ft_tolower.s\
+		ft_toupper.s\
+		ft_bzero.s\
+		ft_memcpy.s\
+		ft_memset.s\
+		ft_strdup.s\
+		ft_strcat.s\
+		ft_strlen.s\
+		ft_puts.s\
+		ft_cat.s\
+		symbols.s
+
 OBJ = $(addprefix obj/, $(addsuffix .o, $(basename $(SRC))))
 
 GCC_FLAGS = -g -no-pie -Wno-implicit-function-declaration 
@@ -28,13 +45,14 @@ ifeq ($(UNAME_S),Linux)
 	DEFINE = -D LINUX
 else
 	ifeq ($(UNAME_S),Darwin)
-		TARGET = -f macho64
+		TARGET = -f macho64 -gprefix _
 	else
 		$(error Incompatible Platform)
 	endif
 endif
 
-$(NAME):$(OBJ)
+$(NAME):$(OBJ) main.c
+	rm -rf $(NAME)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 	gcc $(GCC_FLAGS) $(DEFINE) main.c $(NAME) -o $(TEST_NAME)
@@ -46,7 +64,7 @@ obj/%.o: src/%.s
 clean:
 	rm -rf $(OBJ)
 
-fclean:
+fclean: clean
 	rm -f $(TEST_NAME) $(NAME)
 
 re: fclean all

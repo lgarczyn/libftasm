@@ -1,0 +1,12 @@
+%include "src/macros.s"
+
+extern ascii_flags
+global ft_isprint
+
+ft_isprint:
+	xor RAX, RAX						; empty RAX
+	test RDI, ~127						; check for non-ascii (>127) input
+	cmovz EAX, [rel ascii_flags + RDI]	; load ascii table if input fits
+	and RAX, flag_print					; get specific bit
+	ret
+
