@@ -9,7 +9,7 @@ ft_isprint_branch:
 	test RDI, ~127							; check for non-ascii (>127) input
 	jnz .out_of_bounds						; if non-ascii, jump to error handling
 	mov AL, byte [ascii_flags + RDI]		; dereference index into least sig. byte
-	and EAX, flag_print						; get specific bit (and zeros rest of RAX)
+	and EAX, flag_print						; get specific bit (and zeros rest of EAX)
 	ret
 .out_of_bounds:
 	xor EAX, EAX							; zeros return value
@@ -20,7 +20,6 @@ ft_isprint_compact:
 	test EDI, ~127							; check for non-ascii (>127) input
 	jnz .out_of_bounds						; if non-ascii was found, skip dereferenciation
 	mov AL, byte [ascii_flags + EDI]		; dereference index into least sig. byte
-	and EAX, flag_print						; get specific bit
 .out_of_bounds:
 	ret
 
@@ -30,5 +29,4 @@ ft_isprint:
 	cmovae EDI, EAX							; replace with 128 if outside 0..127
 											; cmov also zero-extends EDI into RDI
 	movzx EAX, byte [ascii_flags + RDI]		; load table entry
-	and AL, flag_print						; mask the desired flag
 	ret
