@@ -4,9 +4,11 @@ extern ascii_flags
 global ft_isalpha
 
 ft_isalpha:
-	xor EAX, EAX						; empty EAX
-	test EDI, ~127						; check for non-ascii (>127) input
-	cmovz EAX, [rel ascii_flags + EDI]	; load ascii table if input fits
-	and EAX, flag_alpha					; get specific bit
+	xor EAX, EAX							; zeros return value preemptively
+	test EDI, ~127							; check for non-ascii (>127) input
+	jnz .out_of_bounds						; if non-ascii was found, skip dereferenciation
+	mov AL, byte [ascii_flags + EDI]		; dereference index into least sig. byte
+	and EAX, flag_alnum						; get specific bit
+.out_of_bounds:
 	ret
 

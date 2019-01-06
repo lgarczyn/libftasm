@@ -18,4 +18,3 @@
 %define flag_print 0b00001000
 %define flag_lower 0b00010000
 %define flag_upper 0b00100000
-%define flag_ascii 0b01000000
