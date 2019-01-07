@@ -1,7 +1,6 @@
 %include "src/macros.s"
 global ascii_flags
 global buffer
-global endline
 
 section .data
 ascii_flags db \
@@ -23,5 +22,4 @@ ascii_flags db \
 		0b00000001, 0b00000001, 0b00000001, 0b00000001, 0b00000001, 0b00000001, 0b00000001, 0b00000001, \
 		0b00000001, 0b00000001, 0b00000001, 0b00001000, 0b00001000, 0b00001000, 0b00001000, 0b00000000, \
 		0
-endline: db 10
 buffer: times BUFFER_SIZE db 0

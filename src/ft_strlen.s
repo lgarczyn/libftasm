@@ -12,10 +12,11 @@ ft_strlen_fast:
 	jne .loop				; go back to start if byte is not zero
 .end:
 	sub RAX, RDI			; set RAX as diff between incremented and original str
+	sub RDI, RAX
 	ret
 
 ft_strlen:
-	push RSI
+	push RDI
 	xor RCX, RCX			; reset RCX
 	not RCX					; set RCX to 0xFFFFFFFF_FFFFFFFF
 	cld						; set direction of rep operation
@@ -23,5 +24,5 @@ ft_strlen:
 	not RCX					; recover strlen + 1 from counter
 	dec RCX					; dec to strlen
 	mov RAX, RCX			; move to return value
-	pop RSI
+	pop RDI
 	ret
