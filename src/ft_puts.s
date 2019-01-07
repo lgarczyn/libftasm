@@ -7,22 +7,19 @@ endline: db 10
 
 section .text
 ft_puts:
-	push rbp
-	mov rbp, rsp
-	call ft_strlen									; (with arg str)
-	mov RDX, RAX									; set syscall third arg as strlen return 
-	mov RSI, RDI									; set syscall second arg as first received
-	mov RDI, 1										; set syscall first arg as 1
-	mov RAX, SYSCALL(WRITE)							; set syscall to write
-	syscall											; call write
-	cmp EAX, -1										; if return value is -1, transmit it to caller
-	je .end
-	mov RDX, STDOUT									; set syscall third arg to 1
-	mov RSI, [rel endline]							; set syscall second arg to "\n"
-	mov RDI, 1										; set syscall first arg as 1
-	syscall											; call write again
-													; if return value is -1, transmit it to caller
+	mov RSI, RDI					; set arg2 to str
+	call ft_strlen					; get strlen(str)
+	mov RDI, STDOUT					; set arg1 to STDOUT
+	mov RDX, RAX					; set arg3 to strlen(str)
+	mov RAX, SYSCALL(WRITE) 		; set syscall to write
+	syscall							; call write
+	cmp EAX, -1						; if error
+	je .end							; skip next call and transmit return value
+	mov RDX, 1						; set arg3 to 1
+	lea ESI, [rel endline]			; set arg2 to "\n"
+	mov EDI, STDOUT					; set arg1 to STDOUT
+	mov RAX, SYSCALL(WRITE) 		; set syscall to write
+	syscall							; call write
 .end:
-	leave
 	ret
 
