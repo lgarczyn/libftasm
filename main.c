@@ -21,13 +21,6 @@
 #define			CALL(F) {printf(#F); TRY(ft_##F);}
 #define			TEST(F) {printf(#F); TRY(F);}
 
-/*
-struct timeval  tv1, tv2;
-gettimeofday(&tv1, NULL);
- stuff to do! 
-gettimeofday(&tv2, NULL);
-
-*/
 void			test_perf(char *n)
 {
 	char		buffer[10000];
@@ -165,11 +158,9 @@ int				main(int argc, char **argv)
 	char		test[101];
 	char		test_ref[101];
 
-	test[100] = '\0';
-	test_ref[100] = '\0';
-
-	bzero(test_ref, 100);
-	CALL(bzero(test, 100));
+	bzero(test_ref, 101);
+	//CALL(bzero(test, 101));
+	CALL(memset(test, 0, 101));
 	TEST(memcmp(test, test_ref, 100) == 0);
 
 	//printf("a.out\n");
@@ -208,16 +199,25 @@ int				main(int argc, char **argv)
 	CALL(strlen("test") == 4);
 	
 	CALL(memset(test, 'c', 49));
+	CALL(memset(test + 49, 'e', 1));
+	CALL(memset(test + 50, 'd', 50));
 	memset(test_ref, 'c', 49);
+	memset(test_ref + 49, 'e', 1);
+	memset(test_ref + 50, 'd', 50);
+	printf("%s\n%s\n", test_ref, test);
 	TEST(memcmp(test, test_ref, 100) == 0);
 
-	CALL(strcat(test, "test again"));
+	memcpy(test_ref + 50, test_ref, 50);
+	CALL(memcpy(test + 50, test, 50));
+	printf("%s\n%s\n", test_ref, test);
+	TEST(memcmp(test, test_ref, 100) == 0);
+
+	test[50] = '\0';
+	test_ref[50] = '\0';
 	strcat(test_ref, "test again");
+	CALL(strcat(test, "test again"));
+	printf("%s\n%s\n", test_ref, test);
 	TEST(memcmp(test, test_ref, 100) == 0);
-
-	CALL(memcpy(test, test + 50, 50));
-	memcpy(test_ref, test_ref + 50, 50);
-	TEST(memcmp(test, test_ref, 100) == 0);	
 
 	char *a = "";
 	char *b = "fajl;aef";

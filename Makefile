@@ -55,7 +55,7 @@ $(NAME):$(OBJ) main.c
 	rm -rf $(NAME)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
-	gcc $(GCC_FLAGS) $(DEFINE) main.c $(NAME) -o $(TEST_NAME) -O3
+	gcc $(GCC_FLAGS) $(DEFINE) main.c $(NAME) -o $(TEST_NAME)
 
 obj/%.o: src/%.s
 	mkdir -p obj
