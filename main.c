@@ -14,12 +14,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 
 #define			TRY(F) {printf(": %s\n", F ? "success" : "failure");}
 
 #define			CALL(F) {printf(#F); TRY(ft_##F);}
 #define			TEST(F) {printf(#F); TRY(F);}
 
+/*
+struct timeval  tv1, tv2;
+gettimeofday(&tv1, NULL);
+ stuff to do! 
+gettimeofday(&tv2, NULL);
+
+*/
 void			test_perf(char *n)
 {
 	char		buffer[10000];
@@ -29,127 +37,127 @@ void			test_perf(char *n)
 	int len = read(fd, buffer, 10000);
 	printf("last char: %c\n", buffer[len - 1]);
 
-	long a, b, a_branch, b_branch, a_compact, b_compact;
+	struct timeval a, b, a_branch, b_branch, a_compact, b_compact;
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	printf("1 cond %lu, 2 branch %lu 3 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("1 cond %llu, 2 branch %llu 3 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	printf("1 cond %lu, 3 branch %lu 2 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("1 cond %llu, 3 branch %llu 2 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	printf("2 cond %lu, 1 branch %lu 3 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("2 cond %llu, 1 branch %llu 3 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	printf("2 cond %lu, 3 branch %lu 1 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("2 cond %llu, 3 branch %llu 1 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	printf("3 cond %lu, 1 branch %lu 2 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("3 cond %llu, 1 branch %llu 2 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 
-	a_compact = clock();
+	gettimeofday(&a_compact, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_compact(buffer[i]);
-	b_compact = clock();
+	gettimeofday(&b_compact, NULL);
 
-	a_branch = clock();
+	gettimeofday(&a_branch, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint_branch(buffer[i]);
-	b_branch = clock();
+	gettimeofday(&b_branch, NULL);
 
-	a = clock();
+	gettimeofday(&a, NULL);
 	for (int j = 0; j < 10000; j++)
 		for (int i = 0; i < len; i++)
 			buffer2[i] = ft_isprint(buffer[i]);
-	b = clock();
+	gettimeofday(&b, NULL);
 
-	printf("3 cond %lu, 2 branch %lu 1 compact %lu\n", b - a, b_branch - a_branch, b_compact - a_compact);
+	printf("3 cond %llu, 2 branch %llu 1 no_table %llu\n", ((unsigned long long int)b.tv_sec * 1000000 + b.tv_usec) - ((unsigned long long int)a.tv_sec * 1000000 + a.tv_usec), ((unsigned long long int)b_branch.tv_sec * 1000000 + b_branch.tv_usec) - ((unsigned long long int)a_branch.tv_sec * 1000000 + a_branch.tv_usec), ((unsigned long long int)b_compact.tv_sec * 1000000 + b_compact.tv_usec) - ((unsigned long long int)a_compact.tv_sec * 1000000 + a_compact.tv_usec));
 }
 
 int				main(int argc, char **argv)
@@ -164,31 +172,31 @@ int				main(int argc, char **argv)
 	CALL(bzero(test, 100));
 	TEST(memcmp(test, test_ref, 100) == 0);
 
-	printf("a.out\n");
-	test_perf("a.out");
-	printf("main.c\n");
-	test_perf("main.c");
-	return (1);
+	//printf("a.out\n");
+	//test_perf("a.out");
+	//printf("main.c\n");
+	//test_perf("main.c");
+	//return (1);
 	for (int i = 0; i < 130; i++)
 	{
 		if (i == 129)
 		{
 			i = 10000;
 		}
-		printf("%i [%c]: %c ~%c O:%c 1:%c I:%c a:%c A:%c U:%c l:%c\n",
+		printf("%i [%c]: %s%s%s%s%s%s%s U:%c l:%c\n",
 			i,
 			ft_isprint(i) ? i : '?',
-			ft_isascii(i) ? 'Y' : 'N',
-			ft_isprint(i) ? 'Y' : 'N',
-			ft_isalnum(i) ? 'Y' : 'N',
-			ft_isdigit(i) ? 'Y' : 'N',
-			ft_isalpha(i) ? 'Y' : 'N',
-			ft_islower(i) ? 'Y' : 'N',
-			ft_isupper(i) ? 'Y' : 'N',
+			ft_isascii(i) ? "A" : "",
+			ft_isprint(i) ? "P" : "",
+			ft_isalnum(i) ? "Al" : "",
+			ft_isdigit(i) ? "D" : "",
+			ft_isalpha(i) ? "A" : "",
+			ft_islower(i) ? "L" : "",
+			ft_isupper(i) ? "U" : "",
 			ft_isprint(i) ? ft_toupper(i) : '?',
 			ft_isprint(i) ? ft_tolower(i) : '?');
-		/* 
-		printf("%i [%c]: %c %c %c\n",
+		
+	/* 	printf("%i [%c]: %c %c %c\n",
 		i, 
 		ft_isprint(i) ? i : '?',
 		ft_isprint(i) ? 'Y' : 'N',

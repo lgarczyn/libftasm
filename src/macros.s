@@ -18,3 +18,11 @@
 %define flag_print 0b00001000
 %define flag_lower 0b00010000
 %define flag_upper 0b00100000
+
+%define flag_lower 0b00000001
+%define flag_upper 0b00000010
+%define flag_digit 0b00000100
+%define flag_specl 0b00001000
+%define flag_alpha 0b00000011
+%define flag_alnum 0b00000111
+%define flag_print 0b00001111
