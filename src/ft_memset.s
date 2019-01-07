@@ -18,7 +18,6 @@ ft_memset_fast:
 ft_memset:
 	push RDI				; save RDI (char *ptr) for return
 	mov RCX, RDX			; move RDX (size_t len) to rep counter
-	xor RDX, RDX
 	mov EAX, ESI			; move ESI (int c) to the rep STOS thing
 	cld						; set direction as forward
 	rep stosb				; while (RDX) {*RDI = AL; RDI++; RDX--}

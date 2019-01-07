@@ -16,7 +16,6 @@ ft_strlen_fast:
 
 ft_strlen:
 	push RSI
-	xor RDX, RDX
 	xor RCX, RCX			; reset RCX
 	not RCX					; set RCX to 0xFFFFFFFF_FFFFFFFF
 	cld						; set direction of rep operation
