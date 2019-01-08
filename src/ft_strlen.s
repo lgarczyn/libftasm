@@ -2,7 +2,6 @@
 global ft_strlen
 global ft_strlen_fast
 
-;original
 ft_strlen_fast:
 	cmp [RDI], byte 0		; compare first byte to 0
 	mov RAX, RDI			; save str to return value
@@ -13,11 +12,10 @@ ft_strlen_fast:
 	jne .loop				; go back to start if byte is not zero
 .end:
 	sub RAX, RDI			; set RAX as diff between incremented and original str
-	sub RDI, RAX
+	sub RDI, RAX			; restore RDI
 	ret
 
 ft_strlen:
-	;push RDI
 	xor AL, AL				; set REP scan byte to 0
 	xor RCX, RCX			; reset RCX
 	not RCX					; set RCX to 0xFFFFFFFF_FFFFFFFF
@@ -26,5 +24,4 @@ ft_strlen:
 	not RCX					; recover strlen + 1 from counter
 	dec RCX					; dec to strlen
 	mov RAX, RCX			; move to return value
-	;pop RDI
 	ret
