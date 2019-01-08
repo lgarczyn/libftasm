@@ -7,7 +7,7 @@ ft_iscntrl:
 	cmp EDI, 128							; check if ascii
 	jae .end
 	lea RAX, [rel ascii_flags]				; load table address
-	movzx EAX, byte [RAX + RDI]				; load table entry
+	mov AL, byte [RAX + RDI]				; load table entry
 	and EAX, flag_print						; apply mask to get correct bit and zero rest of EAX
     sete AL                                 ; invert result
 	ret

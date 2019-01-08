@@ -17,7 +17,7 @@ ft_strdup:
 	mov     RSI, RBP	; store str to arg2
 	mov     RDI, RAX	; store dst to arg1
 	pop     RBP			; restore RBP
-	jmp		ft_memcpy		; copy strlen + 1 bytes from src to dst, then return dst
+	jmp		ft_memcpy	; copy strlen + 1 bytes from src to dst, then return dst
 .error:
 	pop     RBP			; restore RBP
 	ret

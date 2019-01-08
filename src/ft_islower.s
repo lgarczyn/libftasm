@@ -11,4 +11,5 @@ ft_islower:
 	lea RAX, [rel ascii_flags]				; get address to table
 	mov AL, byte [RAX + RDI]				; load table entry
 	and EAX, flag_lower						; apply flag to isolate bit
+	setnz AL								; normalize result, can be removed
 	ret

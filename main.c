@@ -47,7 +47,7 @@ int					ft_toupper(int c);
 
 void			test_char(int i)
 {
-	printf("%.3i [%c]: %s%s%1s%1s%1s%1s%1s%s U:%c l:%c%s%s%s\n",
+	printf("%.3i [%c]: %s%s%1s%1s%1s%1s%1s%s U%i[%c] l:%i[%c] %s%s%s\n",
 		i,
 		ft_isprint(i) ? i : '?',
 		ft_isprint(i) ? "p" : "",
@@ -58,7 +58,9 @@ void			test_char(int i)
 		ft_islower(i) ? "l" : "",
 		ft_isupper(i) ? "U" : "",
 		ft_isascii(i) ? "" : "XXX",
+		ft_toupper(i),
 		ft_isprint(i) ? ft_toupper(i) : '?',
+		ft_tolower(i),
 		ft_isprint(i) ? ft_tolower(i) : '?',
 		ft_isblank(i) ? " blank" : "",
 		ft_isspace(i) ? " space" : "",
@@ -128,6 +130,6 @@ int				main(int argc, char **argv)
 	printf("%lu %lu\n", strlen(b), ft_strlen(b));
 	printf("%lu %lu\n", strlen(c), ft_strlen(c));
 	
-	//ft_cat(open("src/ft_strlen.s", O_RDONLY));
-	//ft_cat(open("src/ft_strlen.s_fake", O_RDONLY));
+	ft_cat(open("src/ft_strlen.s", O_RDONLY));
+	ft_cat(open("src/ft_strlen.s_fake", O_RDONLY));
 }
