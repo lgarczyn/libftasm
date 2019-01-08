@@ -35,17 +35,18 @@ SRC =	ft_isalnum.s\
 
 OBJ = $(addprefix obj/, $(addsuffix .o, $(basename $(SRC))))
 
-GCC_FLAGS = -g -no-pie -Wno-implicit-function-declaration 
+FLAGS_GCC = -g -Wno-implicit-function-declaration 
 
 all: $(NAME)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	TARGET = -f elf64
-	DEFINE = -D LINUX
+	FLAGS_NASM = -f elf64
+	FLAGS = -D LINUX
+	FLAGS_GCC = $(FLAGS_GCC) -no-pie
 else
 	ifeq ($(UNAME_S),Darwin)
-		TARGET = -f macho64 -gprefix _
+		FLAGS_NASM = -f macho64 --prefix _
 	else
 		$(error Incompatible Platform)
 	endif
@@ -55,11 +56,11 @@ $(NAME):$(OBJ) main.c
 	rm -rf $(NAME)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
-	gcc $(GCC_FLAGS) $(DEFINE) main.c $(NAME) -o $(TEST_NAME)
+	gcc $(FLAGS_GCC) $(FLAGS) main.c $(NAME) -o $(TEST_NAME)
 
 obj/%.o: src/%.s
 	mkdir -p obj
-	nasm $(TARGET) $(DEFINE) -o $@ $<
+	nasm $(FLAGS_NASM) $(FLAGS) -o $@ $<
 
 clean:
 	rm -rf $(OBJ)
