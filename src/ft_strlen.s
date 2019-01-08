@@ -1,5 +1,6 @@
 %include "src/macros.s"
 global ft_strlen
+global ft_strlen_fast
 
 ;original
 ft_strlen_fast:
@@ -16,7 +17,8 @@ ft_strlen_fast:
 	ret
 
 ft_strlen:
-	push RDI
+	;push RDI
+	xor AL, AL				; set REP scan byte to 0
 	xor RCX, RCX			; reset RCX
 	not RCX					; set RCX to 0xFFFFFFFF_FFFFFFFF
 	cld						; set direction of rep operation
@@ -24,5 +26,5 @@ ft_strlen:
 	not RCX					; recover strlen + 1 from counter
 	dec RCX					; dec to strlen
 	mov RAX, RCX			; move to return value
-	pop RDI
+	;pop RDI
 	ret

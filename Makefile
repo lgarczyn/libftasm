@@ -20,8 +20,11 @@ SRC =	ft_isalnum.s\
 		ft_isdigit.s\
 		ft_islower.s\
 		ft_isprint.s\
+		ft_iscntrl.s\
 		ft_isupper.s\
 		ft_isspace.s\
+		ft_isblank.s\
+		ft_isxdigit.s\
 		ft_tolower.s\
 		ft_toupper.s\
 		ft_bzero.s\

@@ -16,8 +16,8 @@ ft_puts:
 	cmp EAX, -1						; if error
 	je .end							; skip next call and transmit return value
 	mov RDX, 1						; set arg3 to 1
-	lea ESI, [rel endline]			; set arg2 to "\n"
-	mov EDI, STDOUT					; set arg1 to STDOUT
+	lea RSI, [rel endline]			; set arg2 to "\n"
+	mov RDI, STDOUT					; set arg1 to STDOUT
 	mov RAX, SYSCALL(WRITE) 		; set syscall to write
 	syscall							; call write
 .end:
