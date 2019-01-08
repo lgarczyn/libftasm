@@ -13,7 +13,7 @@ ft_puts:
 	mov RDX, RAX					; set arg3 to strlen(str)
 	mov RAX, SYSCALL(WRITE) 		; set syscall to write
 	syscall							; call write
-	cmp EAX, -1						; if error
+	cmp RAX, -1						; if error
 	je .end							; skip next call and transmit return value
 	mov RDX, 1						; set arg3 to 1
 	lea RSI, [rel endline]			; set arg2 to "\n"
