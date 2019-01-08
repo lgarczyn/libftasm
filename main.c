@@ -25,17 +25,25 @@ char				*ft_strcat(char *s1, const char *s2);
 char				*ft_strdup(const char *s1);
 size_t				ft_strlen(const char *s);
 int					ft_puts(char *str);
+void				ft_cat(int fd);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
+int					ft_isascii(int c);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
-int					ft_isascii(int c);
+int					ft_isblank(int c);
+int					ft_iscntrl(int c);
 int					ft_isdigit(int c);
-int					ft_isempty(int c);
+int					ft_isgraph(int c);
+int					ft_islower(int c);
 int					ft_isprint(int c);
+int					ft_ispunct(int c);
 int					ft_isspace(int c);
-
+int					ft_isupper(int c);
+int					ft_isxdigit(int c);
+int					ft_tolower(int c);
+int					ft_toupper(int c);
 
 void			test_char(int i)
 {
@@ -120,6 +128,6 @@ int				main(int argc, char **argv)
 	printf("%lu %lu\n", strlen(b), ft_strlen(b));
 	printf("%lu %lu\n", strlen(c), ft_strlen(c));
 	
-	CALL(cat(open("src/ft_strlen.s", O_RDONLY)));
-	CALL(cat(open("src/ft_strlen.s_fake", O_RDONLY)));
+	//ft_cat(open("src/ft_strlen.s", O_RDONLY));
+	//ft_cat(open("src/ft_strlen.s_fake", O_RDONLY));
 }

@@ -3,20 +3,21 @@ extern ft_strlen
 extern ft_memcpy
 %include "src/macros.s"
 global ft_strdup
+
 ft_strdup:
-	push RDI										; save str
-	call ft_strlen									; call ft_strlen with str
-	mov RDI, RAX
-	inc RDI											; set first arg to strlen + 1
-	push RDI										; save strlen + 1
-	call malloc										; allocate strlen + 1 bytes
-	cmp RAX, 0										; check for NULL return
-	je .error										; if so, stop
-	mov RDI, RAX									; set arg 1: dst to allocated memory
-	pop RDX											; set arg 3: len to strlen + 1
-	pop RSI											; set arg 2: src to str
-	call ft_memcpy									; copy src to dst, set return value to dst
-	ret
+	push    RBP			; store RBP
+	mov     RBP, RDI	; save arg1 to RBP
+	call    ft_strlen	; call strlen with str
+	lea     R8, [RAX+1]	; store strlen + 1 in R8
+	mov     RDI, R8		; store strlen + 1 in arg1
+	call    malloc		; allocate strlen + 1 bytes
+	test    RAX, RAX	; check if malloc failed
+	je      .error		; if so, return NULL
+	mov     RDX, R8		; store strlen + 1 in arg3
+	mov     RSI, RBP	; store str to arg2
+	mov     RDI, RAX	; store dst to arg1
+	pop     RBP			; restore RBP
+	jmp		ft_memcpy		; copy strlen + 1 bytes from src to dst, then return dst
 .error:
-	mov RAX, 0
+	pop     RBP			; restore RBP
 	ret

@@ -39,7 +39,7 @@ SRC =	ft_isalnum.s\
 
 OBJ = $(addprefix obj/, $(addsuffix .o, $(basename $(SRC))))
 
-FLAGS_GCC =  -Wno-implicit-function-declaration 
+FLAGS_GCC = 
 
 all: $(NAME)
 

@@ -5,6 +5,7 @@ global ft_strcat
 global ft_strcat_fast
 
 ft_strcat:
+	xor		RAX, RAX			; reset AL for scasb
 	mov		R8, RDI				; store dst inside R8
 	mov		RCX, -1				; set REP counter to -1 (0xFFFF...)
 	mov		RDI, RSI			; store src in REP ptr
