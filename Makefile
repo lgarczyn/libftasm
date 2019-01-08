@@ -21,6 +21,7 @@ SRC =	ft_isalnum.s\
 		ft_islower.s\
 		ft_isprint.s\
 		ft_isupper.s\
+		ft_isspace.s\
 		ft_tolower.s\
 		ft_toupper.s\
 		ft_bzero.s\
@@ -35,7 +36,7 @@ SRC =	ft_isalnum.s\
 
 OBJ = $(addprefix obj/, $(addsuffix .o, $(basename $(SRC))))
 
-FLAGS_GCC = -g -Wno-implicit-function-declaration 
+FLAGS_GCC =  -Wno-implicit-function-declaration 
 
 all: $(NAME)
 

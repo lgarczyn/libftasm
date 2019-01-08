@@ -21,29 +21,40 @@
 #define			CALL(F) {printf(#F); TRY(ft_##F);}
 #define			TEST(F) {printf(#F); TRY(F);}
 
-int				main(int argc, char **argv)
-{
-	char		test[101];
-	char		test_ref[101];
+char				*ft_strcat(char *s1, const char *s2);
+char				*ft_strdup(const char *s1);
+size_t				ft_strlen(const char *s);
+int					ft_puts(char *str);
+void				*ft_memcpy(void *dst, const void *src, size_t n);
+void				*ft_memset(void *b, int c, size_t len);
+void				ft_bzero(void *s, size_t n);
+int					ft_isalnum(int c);
+int					ft_isalpha(int c);
+int					ft_isascii(int c);
+int					ft_isdigit(int c);
+int					ft_isempty(int c);
+int					ft_isprint(int c);
+int					ft_isspace(int c);
 
-	for (int i = 0; i < 130; i++)
-	{
-		if (i == 129)
-		{
-			i = 10000;
-		}
-		printf("%i [%c]: %s%s%s%s%s%s%s U:%c l:%c\n",
-			i,
-			ft_isprint(i) ? i : '?',
-			ft_isascii(i) ? "A" : "",
-			ft_isprint(i) ? "P" : "",
-			ft_isalnum(i) ? "Al" : "",
-			ft_isdigit(i) ? "D" : "",
-			ft_isalpha(i) ? "A" : "",
-			ft_islower(i) ? "L" : "",
-			ft_isupper(i) ? "U" : "",
-			ft_isprint(i) ? ft_toupper(i) : '?',
-			ft_isprint(i) ? ft_tolower(i) : '?');
+
+void			test_char(int i)
+{
+	printf("%.3i [%c]: %s%s%1s%1s%1s%1s%1s%s U:%c l:%c%s%s%s\n",
+		i,
+		ft_isprint(i) ? i : '?',
+		ft_isprint(i) ? "p" : "",
+		ft_iscntrl(i) ? "~" : "",
+		ft_isalnum(i) ? "|" : "",
+		ft_isdigit(i) ? "0" : "",
+		ft_isalpha(i) ? "A" : "",
+		ft_islower(i) ? "l" : "",
+		ft_isupper(i) ? "U" : "",
+		ft_isascii(i) ? "" : "XXX",
+		ft_isprint(i) ? ft_toupper(i) : '?',
+		ft_isprint(i) ? ft_tolower(i) : '?',
+		ft_isblank(i) ? " blank" : "",
+		ft_isspace(i) ? " space" : "",
+		ft_isxdigit(i) ? " xdigit" : "");
 		
 	/* 	printf("%i [%c]: %c %c %c\n",
 		i, 
@@ -51,7 +62,16 @@ int				main(int argc, char **argv)
 		ft_isprint(i) ? 'Y' : 'N',
 		ft_isprint_branch(i) ? 'Y' : 'N',
 		ft_isprint_compact(i) ? 'Y' : 'N'); */
-	}
+}
+
+int				main(int argc, char **argv)
+{
+	char		test[101];
+	char		test_ref[101];
+
+	for (unsigned int i = 0; i < 130; i++)
+		test_char(i);
+	test_char(EOF);
 
 	CALL(puts("test"));
 	CALL(puts(""));
