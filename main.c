@@ -47,13 +47,19 @@ int				main(int argc, char **argv)
 	char		test[101];
 	char		test_ref[101];
 
+	printf("testing isX\n");
+
 	for (unsigned int i = 0; i < 130; i++)
 		test_char(i);
 	test_char(EOF);
 
+	printf("testing puts\n");
+
 	TEST(ft_puts("test"));
 	TEST(ft_puts(""));
 	TEST(ft_puts("\n"));
+
+	printf("testing memset\n");
 
 	TEST(ft_memset(test, 'c', 49));
 	TEST(ft_memset(test + 49, 'e', 1));
@@ -63,6 +69,8 @@ int				main(int argc, char **argv)
 	memset(test_ref + 50, 'd', 50);
 	TEST(memcmp(test, test_ref, 100) == 0);
 
+	printf("testing memcpy\n");
+
 	memcpy(test_ref + 50, test_ref, 50);
 	memcpy(test_ref + 60, test_ref + 40, 20);
 	memcpy(test_ref + 60, test_ref, 0);
@@ -70,6 +78,8 @@ int				main(int argc, char **argv)
 	TEST(ft_memcpy(test + 60, test + 40, 20));
 	TEST(ft_memcpy(test + 60, test, 0));
 	TEST(memcmp(test, test_ref, 100) == 0);
+
+	printf("testing strcat\n");
 
 	test[0] = '\0';
 	test_ref[0] = '\0';
@@ -86,10 +96,14 @@ int				main(int argc, char **argv)
 	TEST(ft_strcat(test, ""));
 	TEST(memcmp(test, test_ref, 100) == 0);
 	
-	char *dup = ft_strdup(test_ref);
-	TEST(strcmp(dup, test_ref) == 0);
+	printf("testing strdup\n");
+
+	char *dup = ft_strdup("more tests lol");
+	TEST(strcmp(dup, "more tests lol") == 0);
 	dup = ft_strdup("");
 	TEST(strcmp(dup, "") == 0);
+
+	printf("testing strlen\n");
 
 	char *a = "";
 	char *b = "fail;aef";
@@ -98,8 +112,15 @@ int				main(int argc, char **argv)
 	printf("%lu %lu\n", strlen(b), ft_strlen(b));
 	printf("%lu %lu\n", strlen(c), ft_strlen(c));
 
+	printf("testing ft_cat\n");
+
 	ft_cat(open("src/ft_strlen.s", O_RDONLY));
 	ft_cat(open("src/ft_strlen.s_fake", O_RDONLY));
+	ft_cat(-6);
+	printf("press ctrl-D when done\n");
+	ft_cat(0);
+
+	printf("testing ft_memset_fast\n");
 
 	TEST(ft_memset_fast(test, 'c', 49));
 	TEST(ft_memset_fast(test + 49, 'e', 1));
@@ -109,6 +130,8 @@ int				main(int argc, char **argv)
 	memset(test_ref + 50, 'd', 50);
 	TEST(memcmp(test, test_ref, 100) == 0);
 
+	printf("testing ft_memcpy_fast\n");
+
 	memcpy(test_ref + 50, test_ref, 50);
 	memcpy(test_ref + 60, test_ref + 40, 20);
 	memcpy(test_ref + 60, test_ref, 0);
@@ -116,6 +139,8 @@ int				main(int argc, char **argv)
 	TEST(ft_memcpy_fast(test + 60, test + 40, 20));
 	TEST(ft_memcpy_fast(test + 60, test, 0));
 	TEST(memcmp(test, test_ref, 100) == 0);
+
+	printf("testing ft_strcat_fast\n");
 
 	test[0] = '\0';
 	test_ref[0] = '\0';
@@ -131,6 +156,8 @@ int				main(int argc, char **argv)
 	strcat(test_ref, "");
 	TEST(ft_strcat_fast(test, ""));
 	TEST(memcmp(test, test_ref, 100) == 0);
+
+	printf("testing ft_strlen_fast\n");
 
 	printf("%lu %lu\n", strlen(a), ft_strlen_fast(a));
 	printf("%lu %lu\n", strlen(b), ft_strlen_fast(b));

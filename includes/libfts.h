@@ -20,7 +20,6 @@ size_t				ft_strlen(const char *str);
 size_t				ft_strlen_fast(const char *str);
 size_t				ft_puts(const char *str);
 void				ft_cat(int fd);
-void				ft_cat_fast(int fd);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memcpy_fast(void *dst, const void *src, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
