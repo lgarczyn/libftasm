@@ -39,15 +39,13 @@ SRC =	ft_isalnum.s\
 
 OBJ = $(addprefix obj/, $(addsuffix .o, $(basename $(SRC))))
 
-FLAGS_GCC = 
-
 all: $(NAME)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	FLAGS_NASM = -f elf64
 	FLAGS = -D LINUX
-	FLAGS_GCC = $(FLAGS_GCC) -no-pie
+	FLAGS_GCC = -no-pie
 else
 	ifeq ($(UNAME_S),Darwin)
 		FLAGS_NASM = -f macho64 --prefix _
