@@ -5,7 +5,7 @@ global ft_strlen_fast
 ft_strlen_fast:
 	cmp [RDI], byte 0		; compare first byte to 0
 	mov RAX, RDI			; save str to return value
-	jz .end					; if first byte was enpty, skip
+	jz .end					; if first byte was empty, skip
 .loop:
 	inc RAX					; inc ptr
 	cmp [RAX], byte 0		; check current byte
