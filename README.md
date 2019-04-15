@@ -9,6 +9,4 @@ Written for MacOS, but made to work on Linux too (for testing purposes)
 
 The main.c contains basic tests. More tests can be found on https://github.com/jgigault/42FileChecker
 
-\begin{center} <br>
-\includegraphics[width=8in]{libft-asm.fr.pdf} <br>
-\end{center}
+![Alt](libft-asm.fr.pdf)
